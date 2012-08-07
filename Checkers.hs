@@ -29,8 +29,10 @@ swap orig from to = new where
   mrk = markerAt orig
   new = Map.insert from (mrk to) $ Map.insert to (mrk from) orig
 
-swapMarkers :: Board -> Position -> Position -> Board
-swapMarkers (Board sz posMap) from to = Board sz $ swap posMap from to
+isInBounds :: Board -> Position -> Bool
+isInBounds board pos = posX >= 0 && posX < boardX && posY >= 0 && posY < boardY where
+  (boardX, boardY) = size board
+  (posX, posY) = pos
 
 testSwap :: Test
 testSwap = "swap" ~: TestList [
@@ -118,6 +120,57 @@ testUpdateState = "updateState" ~: TestList [
   sz = (3, 2)
   origBoard = getBoard sz
   newBoard = updateBoard origBoard pos Black
+
+-- | Given a Board and a position on a board, returns the valid
+-- moves for the marker. Markers may move "forward" diagonally,
+-- unless they are King-ed, in which case they may move in any
+-- direction. Markers may jump markers of the opposing player to move
+-- two spaces diagonally. 
+boardMoves :: Board -> Position -> [Position]
+boardMoves board src = boardWalk board src ++ boardJump board src
+
+-- | Given a Board and a position on the board, returns the valid
+-- walks for the marker, that is, the places where it may move a single
+-- position without jumping another piece.
+boardWalk :: Board -> Position -> [Position]
+boardWalk board src = filter (isInBounds board) (possibleMoves marker) where
+  marker = markerAt (markers board) src
+  (x, y) = src
+  possibleMoves (King _) = possibleMoves Black ++ possibleMoves Red
+  possibleMoves Black = [(x-1,y+1), (x+1,y+1)]
+  possibleMoves Red = [(x-1,y-1), (x+1,y-1)]
+  possibleMoves _ = []
+
+-- | Given a Board and a position on the board, returns the valid
+-- jumps for the marker
+boardJump board src = filter (isInBounds board) (possibleMoves marker) where
+  marker = markerAt (markers board) src
+  (x, y) = src
+  possibleMoves (King color) = jumpsTowardsRedHome color ++ jumpsTowardsBlackHome color
+  possibleMoves Black = jumpsTowardsRedHome Black
+  possibleMoves Red = jumpsTowardsBlackHome Red
+  possibleMoves _   = []
+
+  jumpsTowardsRedHome Black = 
+  possibleDiagonals = diagonalN 2 src
+  possibleJumpedPieces = diagonals
+  isTowardsBlack (_, sy) (_, dy) = dy < sy
+  isTowardsRed (_, sy) (_, dy) = dy > sy
+
+-- | Returns all the positions which are the passed param away from the
+-- passed position.
+diagonalN :: Int -> Position -> [Position]
+diagonalN d (r, c) = [(r+d, c+d), (r-d, c-d), (r+d, c-d), (r-d, c+d)]
+
+testDiagonalN :: Test
+testDiagonalN = "Test diagonalN" ~: TestList [
+  diagonalN 1 (0, 0) ~?= [(1,1), (-1, -1), (1, -1), (-1, 1)]
+  ]
+
+-- | Returns all the positions which are 1 diagonal away from the passed
+-- position.
+diagonals :: Position -> [Position]
+diagonals = diagonalN 1
 
 test :: IO ()
 test = do
