@@ -1,4 +1,4 @@
-module Checkers ( Game ) where
+module Checkers ( Game, testAll ) where
 
 import Test.HUnit
 import qualified Data.Map as Map
@@ -129,11 +129,29 @@ testUpdateState = "updateState" ~: TestList [
 boardMoves :: Board -> Position -> [Position]
 boardMoves board src = boardWalk board src ++ boardJump board src
 
+testBoardMoves :: Test
+testBoardMoves = "Test board jumps" ~: TestList [
+  boardMoves board2 startPos ~?= [(1,3),(3,3)],
+  boardMoves board3 startPos ~?= [(1,3),(4,4)],
+  boardMoves board4 (2,4) ~?= [(1,3),(4,2)]
+  ] where
+  board1 = getBoard(5,5)
+  board2 = updateBoard board1 (2,2) Black
+  board3 = updateBoard board2 (3,3) Red
+  board4 = updateBoard board3 (2,4) (King Black)
+  -- 4..K..
+  -- 3...R.
+  -- 2..B..
+  -- 1.....
+  -- 0.....
+  --  01234
+  startPos = (2,2)
+
 -- | Given a Board and a position on the board, returns the valid
 -- walks for the marker, that is, the places where it may move a single
 -- position without jumping another piece.
 boardWalk :: Board -> Position -> [Position]
-boardWalk board src = filter (isInBounds board) (possibleMoves marker) where
+boardWalk board src = filter (inBoundsAndEmpty board) (possibleMoves marker) where
   marker = markerAt (markers board) src
   (x, y) = src
   possibleMoves (King _) = possibleMoves Black ++ possibleMoves Red
@@ -141,21 +159,75 @@ boardWalk board src = filter (isInBounds board) (possibleMoves marker) where
   possibleMoves Red = [(x-1,y-1), (x+1,y-1)]
   possibleMoves _ = []
 
+isTowards :: Marker -> Position -> Position -> Bool
+isTowards Red (_, sy) (_, dy)   = dy > sy
+isTowards Black (_, sy) (_, dy) = dy < sy
+
+inBoundsAndEmpty board pos = isInBounds board pos && boardEmptyAt board pos
+
+boardEmptyAt :: Board -> Position -> Bool
+boardEmptyAt board pos = m == None where
+  m = markerAt (markers board) pos
+
 -- | Given a Board and a position on the board, returns the valid
 -- jumps for the marker
-boardJump board src = filter (isInBounds board) (possibleMoves marker) where
+boardJump :: Board -> Position -> [Position]
+boardJump board src = jumps where
+  jumps = filter (inBoundsAndEmpty board) (possibleMoves marker)
   marker = markerAt (markers board) src
-  (x, y) = src
-  possibleMoves (King color) = jumpsTowardsRedHome color ++ jumpsTowardsBlackHome color
-  possibleMoves Black = jumpsTowardsRedHome Black
-  possibleMoves Red = jumpsTowardsBlackHome Red
-  possibleMoves _   = []
 
-  jumpsTowardsRedHome Black = 
-  possibleDiagonals = diagonalN 2 src
-  possibleJumpedPieces = diagonals
-  isTowardsBlack (_, sy) (_, dy) = dy < sy
-  isTowardsRed (_, sy) (_, dy) = dy > sy
+  possibleMoves :: Marker -> [Position]
+  possibleMoves Black        = possibleMovesColor Black
+  possibleMoves Red          = possibleMovesColor Red
+  possibleMoves (King color) = possibleJumps
+  possibleMoves _            = []
+
+  possibleMovesColor :: Marker -> [Position]
+  possibleMovesColor color = filter towards moves where
+    towards = isTowards (toggleColor color) src
+    moves = possibleJumps
+
+  -- Tuples of a jumped position and the jump destination
+  possibleJumps = map (\(_, a, _) -> a) jumps where 
+    jumps = filter canJump possibleJumpTuples
+    possibleJumpTuples = zip3 diag1 diag2 piecesAtDiagonals
+    diag1 = diagonals src
+    diag2 = diagonalN 2 src
+    piecesAtDiagonals = map (markerAt (markers board)) diag1
+    -- A piece can jump to the position if it jumps over a 
+    -- piece of the opposing color
+    canJump :: (Position, Position, Marker) -> Bool
+    canJump (_, _, m) = markerMayJumpMarker marker m
+
+testBoardJump :: Test
+testBoardJump = "Test board jumps" ~: TestList [
+  boardJump board3 startPos ~?= [(4,4)], 
+  boardJump board4 startPos ~?= [(4,4)],
+  boardJump board5a startPos ~?= [(4,4), (0,4)], 
+  boardJump board5b startPos ~?= [(4,4)],
+  boardJump board6 startPos ~?= [(4,4)]
+  ] where
+  board1 = getBoard(5, 5) 
+  board2 = updateBoard board1 (2, 2) Black
+  board3 = updateBoard board2 (3, 3) Red
+  board4 = updateBoard board3 (1, 1) Red
+  board5a = updateBoard board4 (1, 3) Red
+  board5b = updateBoard board4 (1, 3) Black
+  board6 = updateBoard board5a (0, 4) Red
+  startPos = (2, 2) -- center of board
+
+toggleColor :: Marker -> Marker
+toggleColor Black        = Red
+toggleColor Red          = Black
+toggleColor (King color) = King $ toggleColor color
+toggleColor c            = c
+
+markerMayJumpMarker :: Marker -> Marker -> Bool
+markerMayJumpMarker None _ = False
+markerMayJumpMarker marker (King m) = m /= None && markerMayJumpMarker marker m
+markerMayJumpMarker marker Red = marker /= Red
+markerMayJumpMarker marker Black = marker /= Black
+markerMayJumpMarker _ _ = False
 
 -- | Returns all the positions which are the passed param away from the
 -- passed position.
@@ -172,14 +244,16 @@ testDiagonalN = "Test diagonalN" ~: TestList [
 diagonals :: Position -> [Position]
 diagonals = diagonalN 1
 
-test :: IO ()
-test = do
+testAll :: IO ()
+testAll = do
   runTestTT (TestList [
     testGetBoardPositionMap,
     testGetBoard,
     testSwap,
     testUpdateBoard,
-    testUpdateState
+    testUpdateState,
+    testBoardJump,
+    testBoardMoves
     ])
   return ()
 
