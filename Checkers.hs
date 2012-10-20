@@ -1,4 +1,4 @@
-module Checkers ( Game, testAll ) where
+module Checkers ( Game, testAll, getGameMoves, makeMove, Move, getDefaultGame ) where
 
 import Test.HUnit
 import qualified Data.Map as Map
@@ -14,7 +14,7 @@ data Game = Game GameState [Player] deriving (Show)
 data Board = Board Size PositionMap deriving (Eq) -- Width, Height, Markers
 data GameState = GameState Board Player deriving (Show, Eq) -- State, Board, Current Player
 data Marker = None | Black | Red | King Marker deriving (Show, Eq)
-data Move = Move Position Position deriving (Show, Eq)
+data Move = Move Position Position deriving (Show, Eq, Read)
 
 instance Show Board where
   show board@(Board (width, height) posMap) = join rows where
@@ -325,6 +325,20 @@ testGetStateMoves = "Test getStateMoves" ~: TestList [
   board = emptyBoard
   pos1 = (1,3)
 
+getPlayerPositions :: Player -> Board -> [Position]
+getPlayerPositions player board = positions where
+  marker = case player of 
+             (Player m) -> basicMarker m
+  matchesMarker pos = marker == basicMarker (markerAt (markers board) pos)
+  positions = filter matchesMarker $ boardPositions board
+
+getAllStateMoves :: GameState -> [Move]
+getAllStateMoves state@(GameState board player) = moves where
+  moves = concat $ map (getStateMoves state) positions
+  positions = boardPositions board
+
+getGameMoves :: Game -> [Move]
+getGameMoves (Game gs _) = getAllStateMoves gs
 
 -- | Un-kings the marker
 basicMarker :: Marker -> Marker
@@ -333,6 +347,9 @@ basicMarker Black = Black
 basicMarker Red = Red
 basicMarker None = None
 
+makeMove :: Game -> Move -> Game
+makeMove game@(Game gs players) move@(Move p1 p2) = newGame where
+  newGame = Game (updateState gs p1 p2) players
 
 testAll :: IO ()
 testAll = do
