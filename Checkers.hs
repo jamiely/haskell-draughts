@@ -99,6 +99,24 @@ testUpdateBoard = "updateBoard" ~: TestList [
 emptyPositions :: Board -> [Position]
 emptyPositions (Board _ posMap) = Map.keys $ Map.filter (== None) posMap
 
+hasWon :: Board -> Marker -> Bool
+hasWon _ None = False
+hasWon board (King marker) = hasWon board marker
+hasWon (Board _ posMap) marker = not otherMarkerExists where
+  otherMarkerExists = any (== otherMarker) elems
+  otherMarker = toggleColor marker
+  elems = Map.elems posMap
+
+testHasWon :: Test
+testHasWon = "Test has won" ~: TestList [
+  hasWon b1 Red ~?= True,
+  hasWon b1 Black ~?= False,
+  hasWon b2 Red ~?= False
+  ] where
+  b0 = getBoard (2,2)
+  b1 = foldr (\pos bp -> updateBoard bp pos Red) b0 (emptyPositions b0)
+  b2 = updateBoard b1 (1,1) Black
+
 -- | Updates the game state by making a move at the 
 -- passed position
 updateState :: GameState -> Position -> GameState
@@ -253,7 +271,8 @@ testAll = do
     testUpdateBoard,
     testUpdateState,
     testBoardJump,
-    testBoardMoves
+    testBoardMoves,
+    testHasWon
     ])
   return ()
 
