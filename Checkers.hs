@@ -14,6 +14,7 @@ data Game = Game GameState [Player] deriving (Show)
 data Board = Board Size PositionMap deriving (Eq) -- Width, Height, Markers
 data GameState = GameState Board Player deriving (Show, Eq) -- State, Board, Current Player
 data Marker = None | Black | Red | King Marker deriving (Show, Eq)
+data Move = Move Position Position deriving (Show, Eq)
 
 instance Show Board where
   show board@(Board (width, height) posMap) = join rows where
@@ -50,6 +51,7 @@ getDefaultBoard = filledBoard where
   redPositions = genPos [6..8]
   genPos rows = [(c, d) | c <- [1..8], d <- rows, or [and [even c, even d], and [odd c, odd d]] ]
 
+
 markerAt :: PositionMap -> Position -> Marker
 markerAt orig pos = maybe None id (Map.lookup pos orig)
 
@@ -59,7 +61,7 @@ swap orig from to = new where
   new = Map.insert from (mrk to) $ Map.insert to (mrk from) orig
 
 isInBounds :: Board -> Position -> Bool
-isInBounds board pos = posX >= 0 && posX < boardX && posY >= 0 && posY < boardY where
+isInBounds board pos = posX > 0 && posX <= boardX && posY > 0 && posY <= boardY where
   (boardX, boardY) = size board
   (posX, posY) = pos
 
@@ -182,6 +184,7 @@ testUpdateState = "updateState" ~: TestList [
   origBoard = getBoard sz
   newBoard = updateBoard origBoard posDes Black
 
+
 -- | Given a Board and a position on a board, returns the valid
 -- moves for the marker. Markers may move "forward" diagonally,
 -- unless they are King-ed, in which case they may move in any
@@ -191,22 +194,22 @@ boardMoves :: Board -> Position -> [Position]
 boardMoves board src = boardWalk board src ++ boardJump board src
 
 testBoardMoves :: Test
-testBoardMoves = "Test board jumps" ~: TestList [
-  boardMoves board2 startPos ~?= [(1,3),(3,3)],
-  boardMoves board3 startPos ~?= [(1,3),(4,4)],
-  boardMoves board4 (2,4) ~?= [(1,3),(4,2)]
+testBoardMoves = "Test boardMoves" ~: TestList [
+  boardMoves board2 startPos ~?= [(2,4),(4,4)],
+  boardMoves board3 startPos ~?= [(2,4),(5,5)],
+  boardMoves board4 (3,5) ~?= [(2,4),(5,3)]
   ] where
   board1 = getBoard(5,5)
-  board2 = updateBoard board1 (2,2) Black
-  board3 = updateBoard board2 (3,3) Red
-  board4 = updateBoard board3 (2,4) (King Black)
+  board2 = updateBoard board1 (3,3) Black
+  board3 = updateBoard board2 (4,4) Red
+  board4 = updateBoard board3 (3,5) (King Black)
   -- 4..K..
   -- 3...R.
   -- 2..B..
   -- 1.....
   -- 0.....
   --  01234
-  startPos = (2,2)
+  startPos = (3,3)
 
 -- | Given a Board and a position on the board, returns the valid
 -- walks for the marker, that is, the places where it may move a single
@@ -261,21 +264,21 @@ boardJump board src = jumps where
     canJump (_, _, m) = markerMayJumpMarker marker m
 
 testBoardJump :: Test
-testBoardJump = "Test board jumps" ~: TestList [
-  boardJump board3 startPos ~?= [(4,4)], 
-  boardJump board4 startPos ~?= [(4,4)],
-  boardJump board5a startPos ~?= [(4,4), (0,4)], 
-  boardJump board5b startPos ~?= [(4,4)],
-  boardJump board6 startPos ~?= [(4,4)]
+testBoardJump = "Test boardJump" ~: TestList [
+  boardJump board3 startPos ~?=  [ (5,5)],
+  boardJump board4 startPos ~?=  [ (5,5)],
+  boardJump board5a startPos ~?= [ (5,5), (1,5)],
+  boardJump board5b startPos ~?= [ (5,5)],
+  boardJump board6 startPos ~?=  [ (5,5)]
   ] where
   board1 = getBoard(5, 5) 
-  board2 = updateBoard board1 (2, 2) Black
-  board3 = updateBoard board2 (3, 3) Red
-  board4 = updateBoard board3 (1, 1) Red
-  board5a = updateBoard board4 (1, 3) Red
-  board5b = updateBoard board4 (1, 3) Black
-  board6 = updateBoard board5a (0, 4) Red
-  startPos = (2, 2) -- center of board
+  board2 = updateBoard board1 (3, 3) Black
+  board3 = updateBoard board2 (4, 4) Red
+  board4 = updateBoard board3 (2, 2) Red
+  board5a = updateBoard board4 (2, 4) Red
+  board5b = updateBoard board4 (2, 4) Black
+  board6 = updateBoard board5a (1, 5) Red
+  startPos = (3, 3) -- center of board
 
 toggleColor :: Marker -> Marker
 toggleColor Black        = Red
@@ -305,6 +308,32 @@ testDiagonalN = "Test diagonalN" ~: TestList [
 diagonals :: Position -> [Position]
 diagonals = diagonalN 1
 
+-- | Retrieves the possible moves from the passed position
+getStateMoves :: GameState -> Position -> [Move]
+getStateMoves state@(GameState board@(Board sz posMap) player) posSrc = moves where
+  moves = if (markerMatches player marker) 
+            then map (Move posSrc) (boardMoves board posSrc) else []
+  marker = markerAt posMap posSrc
+  markerMatches (Player m1) m2 = basicMarker m1 == basicMarker m2
+
+testGetStateMoves :: Test
+testGetStateMoves = "Test getStateMoves" ~: TestList [
+  getStateMoves state pos1 ~?= [Move (1,3) (2,4)]
+  ] where
+  state = GameState board $ Player Black
+  emptyBoard = getDefaultBoard
+  board = emptyBoard
+  pos1 = (1,3)
+
+
+-- | Un-kings the marker
+basicMarker :: Marker -> Marker
+basicMarker (King m) = basicMarker m
+basicMarker Black = Black
+basicMarker Red = Red
+basicMarker None = None
+
+
 testAll :: IO ()
 testAll = do
   runTestTT (TestList [
@@ -315,6 +344,7 @@ testAll = do
     testUpdateState,
     testBoardJump,
     testBoardMoves,
+    testGetStateMoves,
     testHasWon
     ])
   return ()
