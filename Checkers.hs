@@ -160,25 +160,27 @@ testHasWon = "Test has won" ~: TestList [
 
 -- | Updates the game state by making a move at the 
 -- passed position
-updateState :: GameState -> Position -> GameState
-updateState orig@(GameState origBoard origPlayer) pos = 
+updateState :: GameState -> Position -> Position -> GameState
+updateState orig@(GameState origBoard origPlayer) posSrc posDes = 
   GameState newBoard next where
-  newBoard = updateBoard origBoard pos (case origPlayer of Player m -> m)
+  removeBoard = updateBoard origBoard posSrc None
+  newBoard = updateBoard removeBoard posDes (case origPlayer of Player m -> m)
   next = case origPlayer of 
-    Player Black -> Player Red
-    _ -> Player Black
+    Player Black        -> Player Red
+    Player (King Black) -> Player Red
+    _                   -> Player Black
 
 testUpdateState :: Test
 testUpdateState = "updateState" ~: TestList [
-  updateState origState pos ~?= newState
+  updateState origState posSrc posDes ~?= newState
   ] where
   origState = GameState origBoard $ Player Black
   newState = GameState newBoard $ Player Red
-  pos = (1, 2)
-
+  posDes = (1, 2)
+  posSrc = (1,1) -- can be anything
   sz = (3, 2)
   origBoard = getBoard sz
-  newBoard = updateBoard origBoard pos Black
+  newBoard = updateBoard origBoard posDes Black
 
 -- | Given a Board and a position on a board, returns the valid
 -- moves for the marker. Markers may move "forward" diagonally,
