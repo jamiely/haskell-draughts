@@ -160,6 +160,15 @@ testHasWon = "Test has won" ~: TestList [
   b2b = updateBoard b1 (1,1) (King Black)
   b2c = updateBoard b1 (1,1) (King Red)
 
+clearStatePos :: GameState -> Position -> GameState
+clearStatePos orig@(GameState origBoard origPlayer) posSrc = 
+  GameState newBoard next where
+  newBoard = updateBoard origBoard posSrc None
+  next = case origPlayer of 
+    Player Black        -> Player Red
+    Player (King Black) -> Player Red
+    _                   -> Player Black
+
 -- | Updates the game state by making a move at the 
 -- passed position
 updateState :: GameState -> Position -> Position -> GameState
@@ -349,7 +358,22 @@ basicMarker None = None
 
 makeMove :: Game -> Move -> Game
 makeMove game@(Game gs players) move@(Move p1 p2) = newGame where
-  newGame = Game (updateState gs p1 p2) players
+  newGame = Game newState2 players
+  newState1 = (updateState gs p1 p2)
+  newState2 = if isJump move 
+                then clearStatePos newState1 jumpedPos
+                else newState1
+  jumpedPos = getJumpedPosition move
+
+isJump :: Move -> Bool
+isJump (Move (sc,sr) (dc,dr)) = diff > 1 where 
+  diff = abs $ sr - dr
+
+getJumpedPosition :: Move -> Position
+getJumpedPosition m@(Move (sc,sr) (dc,dr)) = mPos where
+  mPos = (sc+deltaColumn,sr+deltaRow)
+  deltaColumn = if dc > sc then 1 else -1
+  deltaRow = if dr > sr then 1 else -1
 
 testAll :: IO ()
 testAll = do
