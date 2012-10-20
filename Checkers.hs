@@ -103,19 +103,26 @@ hasWon :: Board -> Marker -> Bool
 hasWon _ None = False
 hasWon board (King marker) = hasWon board marker
 hasWon (Board _ posMap) marker = not otherMarkerExists where
-  otherMarkerExists = any (== otherMarker) elems
-  otherMarker = toggleColor marker
+  otherMarkerExists = any (eqMarker otherMarker) elems
+  otherMarker = toggleColor $ case marker of
+                  King m -> m
+                  m      -> m
+  eqMarker m a = a == m || a == King m
   elems = Map.elems posMap
 
 testHasWon :: Test
 testHasWon = "Test has won" ~: TestList [
   hasWon b1 Red ~?= True,
   hasWon b1 Black ~?= False,
-  hasWon b2 Red ~?= False
+  hasWon b2a Red ~?= False,
+  hasWon b2b Red ~?= False,
+  hasWon b2c Red ~?= True
   ] where
   b0 = getBoard (2,2)
   b1 = foldr (\pos bp -> updateBoard bp pos Red) b0 (emptyPositions b0)
-  b2 = updateBoard b1 (1,1) Black
+  b2a = updateBoard b1 (1,1) Black
+  b2b = updateBoard b1 (1,1) (King Black)
+  b2c = updateBoard b1 (1,1) (King Red)
 
 -- | Updates the game state by making a move at the 
 -- passed position
