@@ -5,21 +5,50 @@ import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 import Data.Map (Map)
 
-type Player = Marker
-
 type Size = (Int, Int) -- Width, Height
 type Position = (Int, Int) -- row, col
 type PositionMap = Map Position Marker
 
+data Player = Player Marker deriving (Show, Eq)
 data Game = Game GameState [Player] deriving (Show)
-data Board = Board Size PositionMap deriving (Show, Eq) -- Width, Height, Markers
+data Board = Board Size PositionMap deriving (Eq) -- Width, Height, Markers
 data GameState = GameState Board Player deriving (Show, Eq) -- State, Board, Current Player
 data Marker = None | Black | Red | King Marker deriving (Show, Eq)
 
+instance Show Board where
+  show board@(Board (width, height) posMap) = join rows where
+    rows = chunk width markers
+    markers = concat $ map (\k -> showMarker $ posMap Map.! k) positions
+    positions = boardPositions board
+    chunk _ [] = []
+    chunk n xs = y1 : chunk n y2 where
+      (y1, y2) = splitAt n xs
+    join = foldr (\s ss -> ss ++ ('\n' : s)) ""
+
+showMarker :: Marker -> String
+showMarker marker = case marker of 
+                      None       -> "."
+                      Black      -> "b"
+                      Red        -> "r"
+                      King Black -> "B"
+                      King Red   -> "R"
+                      _          -> "?"
+
+boardPositions :: Board -> [Position]
+boardPositions (Board (width, height) _) = [(c, r) | r <- [1..height], c <- [1..width]]
+
 getDefaultGame :: Game
-getDefaultGame = Game startingState [Black, Red] where
-  startingState = GameState emptyBoard Black
-  emptyBoard = getBoard (10, 10)
+getDefaultGame = Game startingState [Player Black, Player Red] where
+  startingState = GameState getDefaultBoard $ Player Black
+
+getDefaultBoard :: Board
+getDefaultBoard = filledBoard where
+  emptyBoard = getBoard (8, 8)
+  filledBoard = updateBoardPositions filledRedBoard blackPositions Black
+  filledRedBoard = updateBoardPositions emptyBoard redPositions Red
+  blackPositions = genPos [1..3]
+  redPositions = genPos [6..8]
+  genPos rows = [(c, d) | c <- [1..8], d <- rows, or [and [even c, even d], and [odd c, odd d]] ]
 
 markerAt :: PositionMap -> Position -> Marker
 markerAt orig pos = maybe None id (Map.lookup pos orig)
@@ -84,6 +113,11 @@ updateBoard board pos@(row, col) mark = newBoard where
   newBoard = swapMarkers board newMarks
   newMarks = Map.insert pos mark ms
 
+updateBoardPositions :: Board -> [Position] -> Marker -> Board
+updateBoardPositions board positions marker = updatedBoard where
+  updatedBoard = foldr updatePos board positions
+  updatePos pos board = updateBoard board pos marker
+
 testUpdateBoard :: Test
 testUpdateBoard = "updateBoard" ~: TestList [
   markers origBoard ~?= Map.fromList boardList,
@@ -129,17 +163,17 @@ testHasWon = "Test has won" ~: TestList [
 updateState :: GameState -> Position -> GameState
 updateState orig@(GameState origBoard origPlayer) pos = 
   GameState newBoard next where
-  newBoard = updateBoard origBoard pos origPlayer
+  newBoard = updateBoard origBoard pos (case origPlayer of Player m -> m)
   next = case origPlayer of 
-    Black -> Red
-    _     -> Black
+    Player Black -> Player Red
+    _ -> Player Black
 
 testUpdateState :: Test
 testUpdateState = "updateState" ~: TestList [
   updateState origState pos ~?= newState
   ] where
-  origState = GameState origBoard Black
-  newState = GameState newBoard Red
+  origState = GameState origBoard $ Player Black
+  newState = GameState newBoard $ Player Red
   pos = (1, 2)
 
   sz = (3, 2)
