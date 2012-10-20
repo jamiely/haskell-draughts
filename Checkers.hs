@@ -18,7 +18,10 @@ data Move = Move Position Position deriving (Show, Eq, Read)
 
 instance Show Board where
   show board@(Board (width, height) posMap) = join rows where
-    rows = chunk width markers
+    rows = addColNums 8 $ addRowNums 1 $ chunk width markers
+    addRowNums start (r:rs) = (show start ++ " " ++ r) : addRowNums (start + 1) rs
+    addRowNums _ [] = []
+    addColNums count rs = rs ++ ["  " ++ (foldr (\d s-> s ++ show d) "" (reverse [1..count]))]
     markers = concat $ map (\k -> showMarker $ posMap Map.! k) positions
     positions = boardPositions board
     chunk _ [] = []
