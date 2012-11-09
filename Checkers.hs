@@ -1,4 +1,5 @@
-module Checkers ( Game, testAll, getGameMoves, makeMove, Move, getDefaultGame ) where
+module Checkers ( Game, testAll, getGameMoves, makeMove, Move, 
+  getDefaultGame, gameOver, gameWinner ) where
 
 import Test.HUnit
 import qualified Data.Map as Map
@@ -11,7 +12,7 @@ type PositionMap = Map Position Marker
 
 data Player = Player Marker deriving (Show, Eq)
 data Game = Game GameState [Player] deriving (Show, Eq)
-data Board = Board Size PositionMap deriving (Eq) -- Width, Height, Markers
+data Board = Board Size PositionMap deriving (Eq) -- Width, Height, Mark
 data GameState = GameState Board Player deriving (Show, Eq) -- State, Board, Current Player
 data Marker = None | Black | Red | King Marker deriving (Show, Eq)
 data Move = Move Position Position deriving (Show, Eq, Read)
@@ -143,10 +144,8 @@ hasWon _ None = False
 hasWon board (King marker) = hasWon board marker
 hasWon (Board _ posMap) marker = not otherMarkerExists where
   otherMarkerExists = any (eqMarker otherMarker) elems
-  otherMarker = toggleColor $ case marker of
-                  King m -> m
-                  m      -> m
-  eqMarker m a = a == m || a == King m
+  otherMarker = basicMarker marker
+  eqMarker m a = basicMarker a == m
   elems = Map.elems posMap
 
 testHasWon :: Test
@@ -162,6 +161,21 @@ testHasWon = "Test has won" ~: TestList [
   b2a = updateBoard b1 (1,1) Black
   b2b = updateBoard b1 (1,1) (King Black)
   b2c = updateBoard b1 (1,1) (King Red)
+
+gameBoard :: Game -> Board
+gameBoard (Game (GameState board _) _) = board
+
+gameOver :: Game -> Bool
+gameOver game = any (hasWon board) markers where
+  board = gameBoard game
+  markers = [Red, Black]
+
+gameWinner :: Game -> Marker
+gameWinner game@(Game (GameState b (Player m)) _) = winner where
+  winner = if gameOver game then
+                            if m == Red then Black
+                                        else Red
+                            else None
 
 -- | Clears the position
 clearStatePos :: GameState -> Position -> GameState
