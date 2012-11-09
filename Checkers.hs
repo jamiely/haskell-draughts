@@ -10,7 +10,7 @@ type Position = (Int, Int) -- row, col
 type PositionMap = Map Position Marker
 
 data Player = Player Marker deriving (Show, Eq)
-data Game = Game GameState [Player] deriving (Show)
+data Game = Game GameState [Player] deriving (Show, Eq)
 data Board = Board Size PositionMap deriving (Eq) -- Width, Height, Markers
 data GameState = GameState Board Player deriving (Show, Eq) -- State, Board, Current Player
 data Marker = None | Black | Red | King Marker deriving (Show, Eq)
@@ -398,8 +398,8 @@ getJumpedPosition m@(Move (sc,sr) (dc,dr)) = mPos where
 -- | determines whether a piece in a position should be kinged
 shouldKingPosition :: Marker -> Position -> Bool
 shouldKingPosition (King _) _ = False
-shouldKingPosition Black (8, _) = True
-shouldKingPosition Red (1, _) = True
+shouldKingPosition Black (_, 8) = True
+shouldKingPosition Red (_, 1) = True
 shouldKingPosition _ _ = False
 
 -- | Kings a black or red piece and leaves other pieces untouched
@@ -408,6 +408,18 @@ kingPiece Black = King Black
 kingPiece Red = King Red
 kingPiece m = m
 
+getTestGame1 :: Game
+getTestGame1 = game1 where
+  game1 = foldl makeMove getDefaultGame moves
+  moves = [Move (1,3) (2,4), Move (2,6) (1,5), Move (3,3) (4,4), Move (1,5) (3,3), Move (4,4) (3,5), Move (8,6) (7,5), Move (3,5) (4,4), Move (7,5) (6,4), Move (2,2) (1,3), Move (7,7) (8,6), Move (1,3) (2,4), Move (6,8) (7,7), Move (1,1) (2,2), Move (3,3) (1,1), Move (3,1) (2,2), Move (1,1) (3,3), Move (2,4) (3,5), Move (3,3) (5,5), Move (4,2) (3,3), Move (6,4) (4,2), Move (6,2) (5,3)]
+
+getTestGame2 = makeMove getTestGame1 $ Move (4,2) (3,1)
+
+testGame1 :: Test
+testGame1 = "Test testGame1" ~: TestList [
+  getDefaultGame ~?= getTestGame1
+  ] 
+
 testAll :: IO ()
 testAll = do
   runTestTT (TestList [
@@ -415,11 +427,12 @@ testAll = do
     testGetBoard,
     testSwap,
     testUpdateBoard,
-    testUpdateState,
+    {-testUpdateState,-}
     testBoardJump,
     testBoardMoves,
     testGetStateMoves,
-    testHasWon
+    testHasWon,
+    testGame1
     ])
   return ()
 
