@@ -163,22 +163,28 @@ testHasWon = "Test has won" ~: TestList [
   b2b = updateBoard b1 (1,1) (King Black)
   b2c = updateBoard b1 (1,1) (King Red)
 
+-- | Clears the position
 clearStatePos :: GameState -> Position -> GameState
-clearStatePos orig@(GameState origBoard origPlayer) posSrc = 
-  GameState newBoard next where
-  newBoard = updateBoard origBoard posSrc None
-  next = case origPlayer of 
-    Player Black        -> Player Red
-    Player (King Black) -> Player Red
-    _                   -> Player Black
+clearStatePos orig posSrc = replaceStatePos orig posSrc None
+
+-- | Replaces the item in the position with an arbitrary marker
+replaceStatePos :: GameState -> Position -> Marker -> GameState
+replaceStatePos orig@(GameState origBoard origPlayer) posSrc newMarker = 
+  GameState newBoard origPlayer where
+  newBoard = updateBoard origBoard posSrc newMarker
+
+getStateMarkerAt :: GameState -> Position -> Marker
+getStateMarkerAt (GameState board _) pos = 
+  markerAt (markers board) pos
 
 -- | Updates the game state by making a move at the 
 -- passed position
 updateState :: GameState -> Position -> Position -> GameState
 updateState orig@(GameState origBoard origPlayer) posSrc posDes = 
   GameState newBoard next where
+  sourceMarker = markerAt (markers origBoard) posSrc
   removeBoard = updateBoard origBoard posSrc None
-  newBoard = updateBoard removeBoard posDes (case origPlayer of Player m -> m)
+  newBoard = updateBoard removeBoard posDes sourceMarker
   next = case origPlayer of 
     Player Black        -> Player Red
     Player (King Black) -> Player Red
@@ -361,12 +367,23 @@ basicMarker None = None
 
 makeMove :: Game -> Move -> Game
 makeMove game@(Game gs players) move@(Move p1 p2) = newGame where
-  newGame = Game newState2 players
+  newGame = Game newState3 players
   newState1 = (updateState gs p1 p2)
   newState2 = if isJump move 
                 then clearStatePos newState1 jumpedPos
                 else newState1
+  newState3 = if (shouldKingPosition movedMarker p2)
+                then (kingPieceAt newState2 p2)
+                else newState2
+
+  movedMarker = getStateMarkerAt newState2 p2
+
   jumpedPos = getJumpedPosition move
+
+kingPieceAt :: GameState -> Position -> GameState
+kingPieceAt gs pos = newState where
+  newState = replaceStatePos gs pos kingedPiece
+  kingedPiece = kingPiece $ getStateMarkerAt gs pos
 
 isJump :: Move -> Bool
 isJump (Move (sc,sr) (dc,dr)) = diff > 1 where 
@@ -377,6 +394,19 @@ getJumpedPosition m@(Move (sc,sr) (dc,dr)) = mPos where
   mPos = (sc+deltaColumn,sr+deltaRow)
   deltaColumn = if dc > sc then 1 else -1
   deltaRow = if dr > sr then 1 else -1
+
+-- | determines whether a piece in a position should be kinged
+shouldKingPosition :: Marker -> Position -> Bool
+shouldKingPosition (King _) _ = False
+shouldKingPosition Black (8, _) = True
+shouldKingPosition Red (1, _) = True
+shouldKingPosition _ _ = False
+
+-- | Kings a black or red piece and leaves other pieces untouched
+kingPiece :: Marker -> Marker
+kingPiece Black = King Black
+kingPiece Red = King Red
+kingPiece m = m
 
 testAll :: IO ()
 testAll = do
