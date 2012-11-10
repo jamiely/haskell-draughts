@@ -15,7 +15,9 @@ playGame game = do
     if strMove == "q"
       then putStrLn "Quitting game..." 
       else if isValidMove (getMove strMove)
-        then playGame $ applyMove game strMove 
+        then do
+          putStrLn $ "Applying move " ++ strMove
+          playGame $ applyMove game strMove 
         else putStrLn $ strMove ++ " is not a valid move"
   finishGame = do 
     putStrLn $ "The game is over. Final game state: \n" ++ show game
