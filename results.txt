@@ -1,0 +1,517 @@
+Checkers starting
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 .r.r.r.r
+5 ........
+4 ........
+3 b.b.b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (1,3) (2,4),Move (3,3) (2,4),Move (3,3) (4,4),Move (5,3) (4,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (1,3) (2,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 .r.r.r.r
+5 ........
+4 .b......
+3 ..b.b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (2,6) (1,5),Move (2,6) (3,5),Move (4,6) (3,5),Move (4,6) (5,5),Move (6,6) (5,5),Move (6,6) (7,5),Move (8,6) (7,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (2,6) (1,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 ...r.r.r
+5 r.......
+4 .b......
+3 ..b.b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (2,2) (1,3),Move (3,3) (4,4),Move (5,3) (4,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (2,4) (3,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,3) (4,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 ...r.r.r
+5 r.......
+4 .b.b....
+3 ....b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (1,5) (3,3),Move (4,6) (3,5),Move (4,6) (5,5),Move (6,6) (5,5),Move (6,6) (7,5),Move (8,6) (7,5),Move (1,7) (2,6),Move (3,7) (2,6)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (1,5) (3,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 ...r.r.r
+5 ........
+4 ...b....
+3 ..r.b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (2,2) (1,3),Move (4,2) (2,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (4,4) (3,5),Move (4,4) (5,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (4,4) (3,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 ...r.r.r
+5 ..b.....
+4 ........
+3 ..r.b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (6,6) (7,5),Move (8,6) (7,5),Move (1,7) (2,6),Move (3,7) (2,6)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (8,6) (7,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 ...r.r..
+5 ..b...r.
+4 ........
+3 ..r.b.b.
+2 .b.b.b.b
+1 b.b.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (2,2) (1,3),Move (2,2) (4,4),Move (4,2) (2,4),Move (5,3) (4,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (3,5) (2,6)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (2,2) (1,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 r.r.r.r.
+6 ...r.r..
+5 ..b...r.
+4 ........
+3 b.r.b.b.
+2 ...b.b.b
+1 b.b.b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,3) (2,2),Move (7,5) (6,4),Move (7,5) (8,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (1,7) (2,6),Move (3,7) (2,6),Move (7,7) (8,6)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (1,7) (2,6)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b...r.
+4 ........
+3 b.r.b.b.
+2 ...b.b.b
+1 b.b.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (1,1) (2,2),Move (3,1) (2,2),Move (4,2) (2,4),Move (1,3) (2,4),Move (5,3) (4,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (3,5) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (1,1) (2,2)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b...r.
+4 ........
+3 b.r.b.b.
+2 .b.b.b.b
+1 ..b.b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,3) (1,1),Move (7,5) (6,4),Move (7,5) (8,4),Move (2,6) (1,5),Move (2,6) (4,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,3) (1,1)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b...r.
+4 ........
+3 b...b.b.
+2 ...b.b.b
+1 R.b.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,1) (2,2),Move (4,2) (3,3),Move (1,3) (2,4),Move (5,3) (4,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (3,5) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,1) (2,2)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b...r.
+4 ........
+3 b...b.b.
+2 .b.b.b.b
+1 R...b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (1,1) (3,3),Move (7,5) (6,4),Move (7,5) (8,4),Move (2,6) (1,5),Move (2,6) (4,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (1,1) (3,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b...r.
+4 ........
+3 b.R.b.b.
+2 ...b.b.b
+1 ....b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (4,2) (2,4),Move (1,3) (2,4),Move (5,3) (4,4),Move (5,3) (6,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (3,5) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (5,3) (6,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b...r.
+4 .....b..
+3 b.R...b.
+2 ...b.b.b
+1 ....b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,3) (2,4),Move (3,3) (4,4),Move (3,3) (2,2),Move (7,5) (8,4),Move (7,5) (5,3),Move (2,6) (1,5),Move (2,6) (4,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (7,5) (5,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b.....
+4 ........
+3 b.R.r.b.
+2 ...b.b.b
+1 ....b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (4,2) (6,4),Move (4,2) (2,4),Move (6,2) (4,4),Move (1,3) (2,4),Move (7,3) (6,4),Move (7,3) (8,4),Move (3,5) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (7,3) (6,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b.....
+4 .....b..
+3 b.R.r...
+2 ...b.b.b
+1 ....b.b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,3) (2,4),Move (3,3) (4,4),Move (3,3) (2,2),Move (5,3) (3,1),Move (2,6) (1,5),Move (2,6) (4,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (6,6) (7,5),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (5,3) (3,1)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b.....
+4 .....b..
+3 b.R.....
+2 .....b.b
+1 ..R.b.b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (5,1) (4,2),Move (6,2) (5,3),Move (6,2) (7,3),Move (8,2) (7,3),Move (1,3) (2,4),Move (6,4) (5,5),Move (6,4) (7,5),Move (3,5) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (5,1) (4,2)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b.....
+4 .....b..
+3 b.R.....
+2 ...b.b.b
+1 ..R...b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,1) (2,2),Move (3,1) (5,3),Move (3,3) (2,4),Move (3,3) (4,4),Move (3,3) (2,2),Move (3,3) (5,1),Move (2,6) (1,5),Move (2,6) (4,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (6,6) (7,5),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,1) (5,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b.....
+4 .....b..
+3 b.R.R...
+2 .....b.b
+1 ......b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (6,2) (7,3),Move (6,2) (4,4),Move (8,2) (7,3),Move (1,3) (2,4),Move (6,4) (5,5),Move (6,4) (7,5),Move (3,5) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (8,2) (7,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 .r.r.r..
+5 ..b.....
+4 .....b..
+3 b.R.R.b.
+2 .....b..
+1 ......b. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,3) (2,4),Move (3,3) (4,4),Move (3,3) (2,2),Move (3,3) (4,2),Move (5,3) (4,4),Move (5,3) (4,2),Move (5,3) (7,5),Move (2,6) (1,5),Move (2,6) (4,4),Move (4,6) (5,5),Move (4,6) (2,4),Move (6,6) (5,5),Move (6,6) (7,5),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (2,6) (4,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 ........
+4 ...r.b..
+3 b.R.R.b.
+2 .....b..
+1 ......b. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (7,1) (8,2),Move (1,3) (2,4),Move (7,3) (8,4),Move (6,4) (5,5),Move (6,4) (7,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (7,1) (8,2)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 ........
+4 ...r.b..
+3 b.R.R.b.
+2 .....b.b
+1 ........ (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (3,3) (2,4),Move (3,3) (2,2),Move (3,3) (4,2),Move (3,3) (5,5),Move (5,3) (4,2),Move (5,3) (7,5),Move (5,3) (7,1),Move (5,3) (3,5),Move (4,6) (3,5),Move (4,6) (5,5),Move (6,6) (5,5),Move (6,6) (7,5),Move (3,7) (2,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (5,3) (7,1)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 ........
+4 ...r.b..
+3 b.R...b.
+2 .......b
+1 ......R. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (1,3) (2,4),Move (7,3) (8,4),Move (6,4) (5,5),Move (6,4) (7,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (1,3) (2,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 ........
+4 .b.r.b..
+3 ..R...b.
+2 .......b
+1 ......R. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (7,1) (6,2),Move (3,3) (2,2),Move (3,3) (4,2),Move (3,3) (5,5),Move (3,3) (1,5),Move (4,4) (5,3),Move (4,6) (3,5),Move (4,6) (5,5),Move (6,6) (5,5),Move (6,6) (7,5),Move (3,7) (2,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,3) (1,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 R.......
+4 ...r.b..
+3 ......b.
+2 .......b
+1 ......R. (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (7,3) (8,4),Move (6,4) (5,5),Move (6,4) (7,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (6,4) (5,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 R...b...
+4 ...r....
+3 ......b.
+2 .......b
+1 ......R. (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (7,1) (6,2),Move (4,4) (3,3),Move (4,4) (5,3),Move (1,5) (2,6),Move (1,5) (2,4),Move (4,6) (3,5),Move (4,6) (6,4),Move (6,6) (7,5),Move (3,7) (2,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (7,1) (6,2)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 R...b...
+4 ...r....
+3 ......b.
+2 .....R.b
+1 ........ (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (7,3) (6,4),Move (7,3) (8,4)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (7,3) (6,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 R...b...
+4 ...r.b..
+3 ........
+2 .....R.b
+1 ........ (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (6,2) (5,3),Move (6,2) (7,3),Move (6,2) (5,1),Move (6,2) (7,1),Move (4,4) (3,3),Move (4,4) (5,3),Move (1,5) (2,6),Move (1,5) (2,4),Move (4,6) (3,5),Move (6,6) (7,5),Move (3,7) (2,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (4,4) (3,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 R...b...
+4 .....b..
+3 ..r.....
+2 .....R.b
+1 ........ (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (8,2) (7,3),Move (6,4) (7,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (6,4) (7,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r.r..
+5 R...b.b.
+4 ........
+3 ..r.....
+2 .....R.b
+1 ........ (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (6,2) (5,3),Move (6,2) (7,3),Move (6,2) (5,1),Move (6,2) (7,1),Move (3,3) (2,2),Move (3,3) (4,2),Move (1,5) (2,6),Move (1,5) (2,4),Move (4,6) (3,5),Move (4,6) (6,4),Move (6,6) (4,4),Move (6,6) (8,4),Move (3,7) (2,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (6,6) (8,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r....
+5 R...b...
+4 .......r
+3 ..r.....
+2 .....R.b
+1 ........ (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (8,2) (7,3),Move (5,5) (6,6)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (8,2) (7,3)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...r....
+5 R...b...
+4 .......r
+3 ..r...b.
+2 .....R..
+1 ........ (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (6,2) (5,3),Move (6,2) (5,1),Move (6,2) (7,1),Move (3,3) (2,2),Move (3,3) (4,2),Move (1,5) (2,6),Move (1,5) (2,4),Move (4,6) (3,5),Move (4,6) (6,4),Move (3,7) (2,6),Move (5,7) (6,6),Move (7,7) (6,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (4,6) (6,4)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ........
+5 R.......
+4 .....r.r
+3 ..r...b.
+2 .....R..
+1 ........ (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (7,3) (5,5)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (7,3) (5,5)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ........
+5 R...b...
+4 .......r
+3 ..r.....
+2 .....R..
+1 ........ (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (6,2) (5,3),Move (6,2) (7,3),Move (6,2) (5,1),Move (6,2) (7,1),Move (3,3) (2,2),Move (3,3) (4,2),Move (8,4) (7,3),Move (1,5) (2,6),Move (1,5) (2,4),Move (3,7) (2,6),Move (3,7) (4,6),Move (5,7) (4,6),Move (5,7) (6,6),Move (7,7) (6,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,3) (2,2)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ........
+5 R...b...
+4 .......r
+3 ........
+2 .r...R..
+1 ........ (Player Black)) [Player Black,Player Red]
+Possible moves: 
+ [Move (5,5) (4,6),Move (5,5) (6,6)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (5,5) (4,6)
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ..r.r.r.
+6 ...b....
+5 R.......
+4 .......r
+3 ........
+2 .r...R..
+1 ........ (Player Red)) [Player Black,Player Red]
+Possible moves: 
+ [Move (2,2) (1,1),Move (2,2) (3,1),Move (6,2) (5,3),Move (6,2) (7,3),Move (6,2) (5,1),Move (6,2) (7,1),Move (8,4) (7,3),Move (1,5) (2,6),Move (1,5) (2,4),Move (3,7) (2,6),Move (3,7) (5,5),Move (5,7) (6,6),Move (5,7) (3,5),Move (7,7) (6,6),Move (7,7) (8,6),Move (2,8) (1,7)]
+Enter your move as "Move (src_col, src_row) (des_col, des_row)" (q to quit): 
+Applying move Move (3,7) (5,5)
+The game is over. Final game state: 
+Game (GameState 
+  12345678
+8 .r.r.r.r
+7 ....r.r.
+6 ........
+5 R...r...
+4 .......r
+3 ........
+2 .r...R..
+1 ........ (Player Black)) [Player Black,Player Red]
+Red has won
