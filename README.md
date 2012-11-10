@@ -5,6 +5,19 @@ An attempt to learn Haskell better by implementing the game [Draughts](http://en
 # Media
 * 26be8a2 - http://youtu.be/34AEcHeJ6EE
 
+# Compile
+
+    ghc Main.hs
+
+# Usage
+
+    ./Main
+
+Enter moves in the format "Move (src_col, src_row) (des_col, des_row)"
+or q to quit.
+
+See `script.txt` for sample input, and `result.txt` for sample output. 
+
 # Discussion
 
 I began this several months after a class I took on functional
